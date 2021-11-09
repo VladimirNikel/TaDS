@@ -31,43 +31,7 @@
 
 ## Результаты выполнения тестирования
 
-При таком виде класса тестирования
-```python
-class TestParametrized(object):
-
-    @pytest.mark.parametrize(["salary", "mark_review", "lvl"], [value_list for value_list in AllPairs([
-        list(range(70000, 750000, 5000)),
-        [decimal.Decimal(num/10) for num in range(10, 50)],
-        list(range(7, 17, 1))
-    ])])
-    def test(self, salary, mark_review, lvl):
-        result = salary_calculation.calculation(input_salary=salary, 
-                                                mark_performance_review=mark_review, 
-                                                lvl_engineer=lvl)
-        print(f"{salary} {mark_review} {lvl} {result}")
-        assert result
-```
-
-Получены результаты тестирования, приведенные в файле `result_test_with_print.md`
-
-
-
-А при таком виде класса тестирования
-```python
-class TestParametrized(object):
-
-    @pytest.mark.parametrize(["salary", "mark_review", "lvl"], [value_list for value_list in AllPairs([
-        list(range(70000, 750000, 5000)),
-        [decimal.Decimal(num/10) for num in range(10, 50)],
-        list(range(7, 17, 1))
-    ])])
-    def test(self, salary, mark_review, lvl):
-        assert salary_calculation.calculation(input_salary=salary,
-                                              mark_performance_review=mark_review,
-                                              lvl_engineer=lvl)
-```
-
-Получены результаты тестирования, приведенные в файле `result_test.md`
+Полученные результаты тестирования сведены в файл `result_test.md`
 
 
 
