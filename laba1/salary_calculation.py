@@ -3,6 +3,26 @@ import random
 
 
 def calculation(input_salary: int, mark_performance_review: decimal.Decimal, lvl_engineer: int) -> int:
+    """
+    Необходимо реализовать механизм расчета премии по результатам Performance Review программиста.
+    Для предоставляемых данных:
+    - ЗП инженера - [70 000..750 000] (только целочисленные значения или преобразование ЗП в таковое)
+    - Результат квартального Performance Review [1..5]
+    - Уровень инженера - [7..17]
+    - Размер премии от квартальной ЗП:
+        - 5% если lvl < 10;
+        - 10% если 10 <= lvl < 13
+        - 15% если 13 <= lvl < 15
+        - 20% если lvl >= 15
+    > - Модификатор премии:
+    >   - 0% - если результат pref-review < 2
+    >   - 25% - если 2 <= результат pref-review < 2.5
+    >   - 50% - если 2.5 <= результат pref-review < 3
+    >   - 100% - если 3 <= результат pref-review < 3.5
+    >   - 150% - если 3.5 <= результат pref-review < 4
+    >   - 200% - если результат pref-review >= 4
+    """
+
     # проверка условий
     if not input_salary or not mark_performance_review or not lvl_engineer:
         raise TypeError("Параметр пуст")
@@ -15,29 +35,29 @@ def calculation(input_salary: int, mark_performance_review: decimal.Decimal, lvl
 
     result = input_salary
 
-    # преобразование зарплаты согласно уровню инженера
+    # преобразование премии согласно уровню инженера
     if lvl_engineer < 10:
-        result = result * 1.05
+        result = result * 0.05
     elif 10 <= lvl_engineer < 13:
-        result = result * 1.1
+        result = result * 0.1
     elif 13 <= lvl_engineer < 15:
-        result = result * 1.15
+        result = result * 0.15
     elif lvl_engineer >= 15:
-        result = result * 1.2
+        result = result * 0.2
 
-    # преобразование зарплаты согласно оценке performance review
+    # преобразование премии согласно оценке performance review
     if mark_performance_review < 2:
-        result = result
+        result = result * 0
     elif 2 <= mark_performance_review < 2.5:
-        result = result * 1.25
+        result = result * 0.25
     elif 2.5 <= mark_performance_review < 3:
-        result = result * 1.5
+        result = result * 0.5
     elif 3 <= mark_performance_review < 3.5:
-        result = result * 2
+        result = result * 1
     elif 3.5 <= mark_performance_review < 4:
-        result = result * 2.5
+        result = result * 1.5
     elif mark_performance_review >= 4:
-        result = result * 3
+        result = result * 2
 
     return int(result)
 

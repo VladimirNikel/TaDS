@@ -1,7 +1,9 @@
+import decimal
+
 import pytest
+from _pytest.outcomes import Failed
 from allpairspy import AllPairs
 
-import decimal
 import salary_calculation
 
 
@@ -42,67 +44,40 @@ def test_absence_several_params():
     assert "lvl_engineer" in str(exp.value) and "mark_performance_review" in str(exp.value)
 
 
-def test_correct_param():
-    engineer1 = {
+list_data = [
+    {
         "salary": 70000,
         "mark_review": decimal.Decimal(1),
         "lvl": 7,
-        "prize": int(70000 * 1.05 * 1)
+        "prize": int(0)
     }
-    engineer2 = {
-        "salary": 70001,
-        "mark_review": decimal.Decimal(1.1),
-        "lvl": 8,
-        "prize": int(70001 * 1.05 * 1)
-    }
-    engineer3 = {
-        "salary": 312700,
-        "mark_review": decimal.Decimal(3.7),
-        "lvl": 13,
-        "prize": int(312700 * 1.15 * 2.5)
-    }
-    engineer4 = {
-        "salary": 749999,
-        "mark_review": decimal.Decimal(4.9),
-        "lvl": 16,
-        "prize": int(749999 * 1.2 * 3)
-    }
-    engineer5 = {
-        "salary": 750000,
-        "mark_review": decimal.Decimal(5),
-        "lvl": 17,
-        "prize": int(750000 * 1.2 * 3)
-    }
-    result1 = salary_calculation.calculation(input_salary=engineer1.get("salary"),
-                                             mark_performance_review=engineer1.get("mark_review"),
-                                             lvl_engineer=engineer1.get("lvl"))
-    assert result1 == engineer1.get("prize")
-    result2 = salary_calculation.calculation(input_salary=engineer2.get("salary"),
-                                             mark_performance_review=engineer2.get("mark_review"),
-                                             lvl_engineer=engineer2.get("lvl"))
-    assert result2 == engineer2.get("prize")
-    result3 = salary_calculation.calculation(input_salary=engineer3.get("salary"),
-                                             mark_performance_review=engineer3.get("mark_review"),
-                                             lvl_engineer=engineer3.get("lvl"))
-    assert result3 == engineer3.get("prize")
-    result4 = salary_calculation.calculation(input_salary=engineer4.get("salary"),
-                                             mark_performance_review=engineer4.get("mark_review"),
-                                             lvl_engineer=engineer4.get("lvl"))
-    assert result4 == engineer4.get("prize")
-    result5 = salary_calculation.calculation(input_salary=engineer5.get("salary"),
-                                             mark_performance_review=engineer5.get("mark_review"),
-                                             lvl_engineer=engineer5.get("lvl"))
-    assert result5 == engineer5.get("prize")
+    ]
 
 
-class TestParametrized(object):
+@pytest.mark.parametrize("data", list_data)
+def test_correct_param(data):
+    result1 = int(salary_calculation.calculation(input_salary=data.get("salary"),
+                                                 mark_performance_review=data.get("mark_review"),
+                                                 lvl_engineer=data.get("lvl")))
+    assert result1 == data.get("prize")
 
-    @pytest.mark.parametrize(["salary", "mark_review", "lvl"], [value_list for value_list in AllPairs([
-        list(range(70000, 750000, 5000)),
-        [decimal.Decimal(num/10) for num in range(10, 50)],
-        list(range(7, 17, 1))
-    ])])
-    def test(self, salary, mark_review, lvl):
-        assert salary_calculation.calculation(input_salary=salary,
-                                              mark_performance_review=mark_review,
-                                              lvl_engineer=lvl)
+
+list_salary = [-5080, 69999, 70000, 312540, 750000, 750001, 1000000]
+list_mark_review = [0.2, 1.0, 1.9, 2.0, 2.4, 2.5, 2.9, 3.0, 3.4, 3.5, 3.9, 4.0, 5.0, 5.7]
+list_lvl = [-5, 6, 7, 9, 10, 12, 13, 14, 15, 17, 21]
+
+
+@pytest.mark.parametrize(["salary", "mark_review", "lvl"], [value_list for value_list in AllPairs([
+    list_salary, list_mark_review, list_lvl
+])])
+def test(salary, mark_review, lvl):
+    try:
+        with pytest.raises(ValueError) as exp:
+            salary_calculation.calculation(input_salary=salary,
+                                           mark_performance_review=mark_review,
+                                           lvl_engineer=lvl)
+        assert str(exp.value) in ["Зарплата находится за допустимыми пределами",
+                                  "Оценка performance_review за допустимыми пределами",
+                                  "Уровень инженера за допустимыми пределами"]
+    except Failed:
+        assert True
