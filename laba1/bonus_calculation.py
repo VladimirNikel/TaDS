@@ -72,7 +72,7 @@ if __name__ == "__main__":
     # level_engineer [7..17]
     level_engineer = random.randint(7, 17)
 
-    salary_output = calculation(input_salary=salary_input, mark_performance_review=decimal.Decimal(performance_review),
-                                lvl_engineer=level_engineer)
+    bonus_output = calculation(input_salary=salary_input, mark_performance_review=decimal.Decimal(performance_review),
+                               lvl_engineer=level_engineer)
     print(f"При месячном окладе в {salary_input} рублей, при результатах performance review в {performance_review} "
-          f"и уровне инженера {level_engineer} премия равна: {salary_output} рублей")
+          f"и уровне инженера {level_engineer} премия равна: {bonus_output} рублей")
