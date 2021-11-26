@@ -14,13 +14,13 @@ def calculation(input_salary: int, mark_performance_review: decimal.Decimal, lvl
         - 10% если 10 <= lvl < 13
         - 15% если 13 <= lvl < 15
         - 20% если lvl >= 15
-    > - Модификатор премии:
-    >   - 0% - если результат pref-review < 2
-    >   - 25% - если 2 <= результат pref-review < 2.5
-    >   - 50% - если 2.5 <= результат pref-review < 3
-    >   - 100% - если 3 <= результат pref-review < 3.5
-    >   - 150% - если 3.5 <= результат pref-review < 4
-    >   - 200% - если результат pref-review >= 4
+    - Модификатор премии:
+        - 0% - если результат pref-review < 2
+        - 25% - если 2 <= результат pref-review < 2.5
+        - 50% - если 2.5 <= результат pref-review < 3
+        - 100% - если 3 <= результат pref-review < 3.5
+        - 150% - если 3.5 <= результат pref-review < 4
+        - 200% - если результат pref-review >= 4
     """
 
     # проверка условий
